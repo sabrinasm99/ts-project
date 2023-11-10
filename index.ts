@@ -10,3 +10,8 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+process.on('SIGINT', () => {
+  console.log('Close the app...');
+  process.exit();
+});
