@@ -16,6 +16,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    ports:
+      - ${APP_PORT}:${APP_PORT}
     # command: sleep 1000
   postgres-db:
     image: postgres
