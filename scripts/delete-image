@@ -1,5 +1,0 @@
-#!/bin/bash
-
-source .env
-
-docker image rm -f $TSPROJECT_IMAGE
