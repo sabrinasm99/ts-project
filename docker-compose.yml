@@ -31,9 +31,29 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql/data
     networks:
       - app-network
-
+  migrations:
+    build: ./migrate
+    container_name: migrations
+    profiles:
+      - migrations
+    networks:
+      - app-network
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    env_file:
+      - .env
 networks:
   app-network:
     driver: bridge
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /root/project/ts-project-db
+      o: bind
