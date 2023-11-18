@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${APP_PORT}:${APP_PORT}  
     # command: sleep 1000
   postgres-db:
     image: postgres
@@ -32,9 +32,11 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     networks:
       - app-network
+    ports:
+      - 127.0.0.1:${PG_PORT}:${PG_PORT}
   migrations:
     build: ./migrate
     container_name: migrations
@@ -51,9 +53,9 @@ networks:
   app-network:
     driver: bridge
 volumes:
-  db_data:
+  db-data:
     driver: local
     driver_opts:
       type: none
-      device: /root/project/ts-project-db
+      device: ${VOLUMES_DRIVER_LOCAL}
       o: bind

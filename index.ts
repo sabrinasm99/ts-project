@@ -16,13 +16,28 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Welcome Friends');
 });
 
-app.post('/insert', async (req: Request, res: Response) => {
+app.post('/doctor', async (req: Request, res: Response) => {
   const id = v4();
   const { name, experience } = req.body;
 
   const text =
     'INSERT into doctors(id, name, experience) VALUES($1, $2, $3) RETURNING *';
   const value = [id, name, experience];
+
+  await client.query(text, value);
+
+  res.json({
+    message: 'SUCCESS INSERT'
+  });
+});
+
+app.post('/owner', async (req: Request, res: Response) => {
+  const id = v4();
+  const { name, phone_number, address } = req.body;
+
+  const text =
+    'INSERT into owners(id, name, phone_number, address) VALUES($1, $2, $3, $4) RETURNING *';
+  const value = [id, name, phone_number, address];
 
   await client.query(text, value);
 
